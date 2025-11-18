@@ -1,0 +1,70 @@
+mysql> CREATE TABLE Manager (
+    ->     manager_id INT PRIMARY KEY,
+    ->     name VARCHAR(50),
+    ->     location VARCHAR(50)
+    -> );
+Query OK, 0 rows affected (0.06 sec)
+
+mysql> INSERT INTO Manager (manager_id, name, location) VALUES
+    -> (101, 'Arun Kumar', 'Bangalore'),
+    -> (102, 'Megha Singh', 'Mumbai'),
+    -> (103, 'Rajat Sharma', 'Chennai'),
+    -> (104, 'Priya Nair', 'Delhi'),
+    -> (105, 'Vikram Rao', 'Pune');
+Query OK, 5 rows affected (0.04 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+mysql> select * from Manager;
++------------+--------------+-----------+
+| manager_id | name         | location  |
++------------+--------------+-----------+
+|        101 | Arun Kumar   | Bangalore |
+|        102 | Megha Singh  | Mumbai    |
+|        103 | Rajat Sharma | Chennai   |
+|        104 | Priya Nair   | Delhi     |
+|        105 | Vikram Rao   | Pune      |
++------------+--------------+-----------+
+5 rows in set (0.00 sec)
+
+mysql> CREATE TABLE Employee (
+    ->     emp_id INT PRIMARY KEY,
+    ->     name VARCHAR(50),
+    ->     age INT,
+    ->     email_id VARCHAR(100),
+    ->     manager_id INT,
+    ->     FOREIGN KEY (manager_id) REFERENCES Manager(manager_id)
+    -> );
+Query OK, 0 rows affected (0.09 sec)
+
+mysql> INSERT INTO Employee (emp_id, name, age, email_id, manager_id) VALUES
+    -> (1, 'Rahul Sharma', 28, 'rahul.sharma@example.com', 101),
+    -> (2, 'Priya Mehta', 26, 'priya.mehta@example.com', 102),
+    -> (3, 'Vikram Jain', 32, 'vikram.jain@example.com', 103),
+    -> (4, 'Sneha Reddy', 30, 'sneha.reddy@example.com', 101),
+    -> (5, 'Amit Verma', 27, 'amit.verma@example.com', 104),
+    -> (6, 'Divya Kapoor', 25, 'divya.kapoor@example.com', 105),
+    -> (7, 'Manoj Gupta', 29, 'manoj.gupta@example.com', 102),
+    -> (8, 'Neha Singh', 31, 'neha.singh@example.com', 103),
+    -> (9, 'Rohit Patil', 33, 'rohit.patil@example.com', 104),
+    -> (10, 'Asha Rao', 24, 'asha.rao@example.com', 105);
+Query OK, 10 rows affected (0.04 sec)
+Records: 10  Duplicates: 0  Warnings: 0
+
+mysql> select * from Employee;
++--------+--------------+------+--------------------------+------------+
+| emp_id | name         | age  | email_id                 | manager_id |
++--------+--------------+------+--------------------------+------------+
+|      1 | Rahul Sharma |   28 | rahul.sharma@example.com |        101 |
+|      2 | Priya Mehta  |   26 | priya.mehta@example.com  |        102 |
+|      3 | Vikram Jain  |   32 | vikram.jain@example.com  |        103 |
+|      4 | Sneha Reddy  |   30 | sneha.reddy@example.com  |        101 |
+|      5 | Amit Verma   |   27 | amit.verma@example.com   |        104 |
+|      6 | Divya Kapoor |   25 | divya.kapoor@example.com |        105 |
+|      7 | Manoj Gupta  |   29 | manoj.gupta@example.com  |        102 |
+|      8 | Neha Singh   |   31 | neha.singh@example.com   |        103 |
+|      9 | Rohit Patil  |   33 | rohit.patil@example.com  |        104 |
+|     10 | Asha Rao     |   24 | asha.rao@example.com     |        105 |
++--------+--------------+------+--------------------------+------------+
+10 rows in set (0.00 sec)
+
+mysql>
