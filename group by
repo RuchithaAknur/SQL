@@ -1,0 +1,344 @@
+mysql> CREATE TABLE employees (
+    ->     emp_id INT AUTO_INCREMENT PRIMARY KEY,
+    ->     emp_name VARCHAR(50),
+    ->     department VARCHAR(50),
+    ->     salary INT,
+    ->     age INT,
+    ->     city VARCHAR(20),
+    ->     gender CHAR(1)
+    -> );
+Query OK, 0 rows affected (0.07 sec)
+
+mysql> INSERT INTO employees (emp_id, emp_name, department, salary, age, city, gender) VALUES
+    -> (1, 'Rahul', 'IT', 55000, 28, 'Mumbai', 'M'),
+    -> (2, 'Priya', 'Human Resources', 33000, 26, 'Delhi', 'F'),
+    -> (3, 'Vikram', 'Sales', 38000, 32, 'Chennai', 'M'),
+    -> (4, 'Sneha', 'IT', 60000, 30, 'Bangalore', 'F'),
+    -> (6, 'Asha', 'Human Resources', 45000, 29, 'Delhi', 'F'),
+    -> (7, 'Manoj', 'IT', 50000, 27, 'Mumbai', 'M'),
+    -> (8, 'Deepak', 'Support', 33000, 31, 'Pune', 'M'),
+    -> (9, 'Neha', 'Sales', 41000, 26, 'Chennai', 'F'),
+    -> (11, 'Arjun', 'IT', 72000, 40, 'Bangalore', 'M'),
+    -> (12, 'Divya', 'Support', 35000, 25, 'Pune', 'F'),
+    -> (13, 'Jatin', 'Human Resources', 47000, 28, 'Mumbai', 'M'),
+    -> (14, 'Rohit', 'Sales', 39000, 24, 'Delhi', 'M'),
+    -> (15, 'Meera', 'Finance', 80000, 36, 'Chennai', 'F'),
+    -> (16, 'Rahul', 'IT', 50000, 30, NULL, 'M');
+Query OK, 14 rows affected (0.05 sec)
+Records: 14  Duplicates: 0  Warnings: 0
+
+mysql> select * from employees;
++--------+----------+-----------------+--------+------+-----------+--------+
+| emp_id | emp_name | department      | salary | age  | city      | gender |
++--------+----------+-----------------+--------+------+-----------+--------+
+|      1 | Rahul    | IT              |  55000 |   28 | Mumbai    | M      |
+|      2 | Priya    | Human Resources |  33000 |   26 | Delhi     | F      |
+|      3 | Vikram   | Sales           |  38000 |   32 | Chennai   | M      |
+|      4 | Sneha    | IT              |  60000 |   30 | Bangalore | F      |
+|      6 | Asha     | Human Resources |  45000 |   29 | Delhi     | F      |
+|      7 | Manoj    | IT              |  50000 |   27 | Mumbai    | M      |
+|      8 | Deepak   | Support         |  33000 |   31 | Pune      | M      |
+|      9 | Neha     | Sales           |  41000 |   26 | Chennai   | F      |
+|     11 | Arjun    | IT              |  72000 |   40 | Bangalore | M      |
+|     12 | Divya    | Support         |  35000 |   25 | Pune      | F      |
+|     13 | Jatin    | Human Resources |  47000 |   28 | Mumbai    | M      |
+|     14 | Rohit    | Sales           |  39000 |   24 | Delhi     | M      |
+|     15 | Meera    | Finance         |  80000 |   36 | Chennai   | F      |
+|     16 | Rahul    | IT              |  50000 |   30 | NULL      | M      |
++--------+----------+-----------------+--------+------+-----------+--------+
+14 rows in set (0.00 sec)
+
+mysql> select sum(salary) from employees group by department;
++-------------+
+| sum(salary) |
++-------------+
+|      287000 |
+|      125000 |
+|      118000 |
+|       68000 |
+|       80000 |
++-------------+
+5 rows in set (0.02 sec)
+
+mysql> select deprtment,sum(salary) from employees group by department;
+ERROR 1054 (42S22): Unknown column 'deprtment' in 'field list'
+mysql> select department,sum(salary) from employees group by department;
++-----------------+-------------+
+| department      | sum(salary) |
++-----------------+-------------+
+| IT              |      287000 |
+| Human Resources |      125000 |
+| Sales           |      118000 |
+| Support         |       68000 |
+| Finance         |       80000 |
++-----------------+-------------+
+5 rows in set (0.00 sec)
+
+mysql> select count(emp_id) from employees group by department;
++---------------+
+| count(emp_id) |
++---------------+
+|             5 |
+|             3 |
+|             3 |
+|             2 |
+|             1 |
++---------------+
+5 rows in set (0.00 sec)
+
+mysql> select department,count(emp_id) from employees group by department;
++-----------------+---------------+
+| department      | count(emp_id) |
++-----------------+---------------+
+| IT              |             5 |
+| Human Resources |             3 |
+| Sales           |             3 |
+| Support         |             2 |
+| Finance         |             1 |
++-----------------+---------------+
+5 rows in set (0.00 sec)
+
+mysql> select department,avg(salary) from employees group by department;
++-----------------+-------------+
+| department      | avg(salary) |
++-----------------+-------------+
+| IT              |  57400.0000 |
+| Human Resources |  41666.6667 |
+| Sales           |  39333.3333 |
+| Support         |  34000.0000 |
+| Finance         |  80000.0000 |
++-----------------+-------------+
+5 rows in set (0.03 sec)
+
+mysql> select department,max(salary),min(salary) from employees group by department;
++-----------------+-------------+-------------+
+| department      | max(salary) | min(salary) |
++-----------------+-------------+-------------+
+| IT              |       72000 |       50000 |
+| Human Resources |       47000 |       33000 |
+| Sales           |       41000 |       38000 |
+| Support         |       35000 |       33000 |
+| Finance         |       80000 |       80000 |
++-----------------+-------------+-------------+
+5 rows in set (0.00 sec)
+
+mysql> select count(emp_id) from employees group by city;
++---------------+
+| count(emp_id) |
++---------------+
+|             3 |
+|             3 |
+|             3 |
+|             2 |
+|             2 |
+|             1 |
++---------------+
+6 rows in set (0.00 sec)
+
+mysql> select city,count(emp_id) from employees group by city;
++-----------+---------------+
+| city      | count(emp_id) |
++-----------+---------------+
+| Mumbai    |             3 |
+| Delhi     |             3 |
+| Chennai   |             3 |
+| Bangalore |             2 |
+| Pune      |             2 |
+| NULL      |             1 |
++-----------+---------------+
+6 rows in set (0.00 sec)
+
+mysql> select city,sum(salary),avg(salary),min(salary),max(salary) from employees group by city;
++-----------+-------------+-------------+-------------+-------------+
+| city      | sum(salary) | avg(salary) | min(salary) | max(salary) |
++-----------+-------------+-------------+-------------+-------------+
+| Mumbai    |      152000 |  50666.6667 |       47000 |       55000 |
+| Delhi     |      117000 |  39000.0000 |       33000 |       45000 |
+| Chennai   |      159000 |  53000.0000 |       38000 |       80000 |
+| Bangalore |      132000 |  66000.0000 |       60000 |       72000 |
+| Pune      |       68000 |  34000.0000 |       33000 |       35000 |
+| NULL      |       50000 |  50000.0000 |       50000 |       50000 |
++-----------+-------------+-------------+-------------+-------------+
+6 rows in set (0.00 sec)
+
+mysql> select emp_name,count(age) from employees group by age;
+ERROR 1055 (42000): Expression #1 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'ruchithadb2.employees.emp_name' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
+mysql> select count(age) from employees group by age;
++------------+
+| count(age) |
++------------+
+|          2 |
+|          2 |
+|          1 |
+|          2 |
+|          1 |
+|          1 |
+|          1 |
+|          1 |
+|          1 |
+|          1 |
+|          1 |
++------------+
+11 rows in set (0.00 sec)
+
+mysql> select age,count(age) from employees group by age;
++------+------------+
+| age  | count(age) |
++------+------------+
+|   28 |          2 |
+|   26 |          2 |
+|   32 |          1 |
+|   30 |          2 |
+|   29 |          1 |
+|   27 |          1 |
+|   31 |          1 |
+|   40 |          1 |
+|   25 |          1 |
+|   24 |          1 |
+|   36 |          1 |
++------+------------+
+11 rows in set (0.00 sec)
+
+mysql> select emp_name from employees group by department and city;
+ERROR 1055 (42000): Expression #1 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'ruchithadb2.employees.emp_name' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
+mysql> select * from employees group by department and city;
+ERROR 1055 (42000): Expression #1 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'ruchithadb2.employees.emp_id' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
+mysql> select emp_name from employees group by department,city;
+ERROR 1055 (42000): Expression #1 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'ruchithadb2.employees.emp_name' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
+mysql> select city,department,count(*) from employees group by department,city;
++-----------+-----------------+----------+
+| city      | department      | count(*) |
++-----------+-----------------+----------+
+| Mumbai    | IT              |        2 |
+| Delhi     | Human Resources |        2 |
+| Chennai   | Sales           |        2 |
+| Bangalore | IT              |        2 |
+| Pune      | Support         |        2 |
+| Mumbai    | Human Resources |        1 |
+| Delhi     | Sales           |        1 |
+| Chennai   | Finance         |        1 |
+| NULL      | IT              |        1 |
++-----------+-----------------+----------+
+9 rows in set (0.00 sec)
+
+mysql> select * from employees where salary>50000 group by department;
+ERROR 1055 (42000): Expression #1 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'ruchithadb2.employees.emp_id' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
+mysql> select department,salary from employees where salary>50000 group by department;
+ERROR 1055 (42000): Expression #2 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'ruchithadb2.employees.salary' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
+mysql> select count(*) from employees where salary>50000 group by department;
++----------+
+| count(*) |
++----------+
+|        3 |
+|        1 |
++----------+
+2 rows in set (0.03 sec)
+
+mysql> select department,count(*) from employees where salary>50000 group by department;
++------------+----------+
+| department | count(*) |
++------------+----------+
+| IT         |        3 |
+| Finance    |        1 |
++------------+----------+
+2 rows in set (0.00 sec)
+
+mysql> select city,sum(salary) from employees where salary>40000 group by city;
++-----------+-------------+
+| city      | sum(salary) |
++-----------+-------------+
+| Mumbai    |      152000 |
+| Bangalore |      132000 |
+| Delhi     |       45000 |
+| Chennai   |      121000 |
+| NULL      |       50000 |
++-----------+-------------+
+5 rows in set (0.00 sec)
+
+mysql> select count(m), count(f) from employees group by gender;
+ERROR 1054 (42S22): Unknown column 'm' in 'field list'
+mysql> select count(*), count(*) from employees group by gender;
++----------+----------+
+| count(*) | count(*) |
++----------+----------+
+|        8 |        8 |
+|        6 |        6 |
++----------+----------+
+2 rows in set (0.00 sec)
+
+mysql> select count(*) from employees group by gender;
++----------+
+| count(*) |
++----------+
+|        8 |
+|        6 |
++----------+
+2 rows in set (0.00 sec)
+
+mysql> select gender,count(*) from employees group by gender;
++--------+----------+
+| gender | count(*) |
++--------+----------+
+| M      |        8 |
+| F      |        6 |
++--------+----------+
+2 rows in set (0.00 sec)
+
+mysql> select emp_name,age,avg(age) from employees group by emp_name,age;
++----------+------+----------+
+| emp_name | age  | avg(age) |
++----------+------+----------+
+| Rahul    |   28 |  28.0000 |
+| Priya    |   26 |  26.0000 |
+| Vikram   |   32 |  32.0000 |
+| Sneha    |   30 |  30.0000 |
+| Asha     |   29 |  29.0000 |
+| Manoj    |   27 |  27.0000 |
+| Deepak   |   31 |  31.0000 |
+| Neha     |   26 |  26.0000 |
+| Arjun    |   40 |  40.0000 |
+| Divya    |   25 |  25.0000 |
+| Jatin    |   28 |  28.0000 |
+| Rohit    |   24 |  24.0000 |
+| Meera    |   36 |  36.0000 |
+| Rahul    |   30 |  30.0000 |
++----------+------+----------+
+14 rows in set (0.00 sec)
+
+mysql> select department,avg(age) from employees group by department;
++-----------------+----------+
+| department      | avg(age) |
++-----------------+----------+
+| IT              |  31.0000 |
+| Human Resources |  27.6667 |
+| Sales           |  27.3333 |
+| Support         |  28.0000 |
+| Finance         |  36.0000 |
++-----------------+----------+
+5 rows in set (0.00 sec)
+
+mysql> select department,round(avg(age),2) from employees group by department;
++-----------------+-------------------+
+| department      | round(avg(age),2) |
++-----------------+-------------------+
+| IT              |             31.00 |
+| Human Resources |             27.67 |
+| Sales           |             27.33 |
+| Support         |             28.00 |
+| Finance         |             36.00 |
++-----------------+-------------------+
+5 rows in set (0.00 sec)
+
+mysql> select department,round(avg(age),0) from employees group by department;
++-----------------+-------------------+
+| department      | round(avg(age),0) |
++-----------------+-------------------+
+| IT              |                31 |
+| Human Resources |                28 |
+| Sales           |                27 |
+| Support         |                28 |
+| Finance         |                36 |
++-----------------+-------------------+
+5 rows in set (0.00 sec)
+
+mysql>
